@@ -22,7 +22,6 @@ jobs:
     - name: blah
       run: ls -lah
 
-
     - name: Check for Go Modules files - go.mod
       id: go_mod
       uses: andstor/file-existence-action@v3
@@ -156,4 +155,3 @@ jobs:
         echo "SBT Files Found"
         echo "Building SBT"
         sbt compile
-
