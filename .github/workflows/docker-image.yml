@@ -22,121 +22,138 @@ jobs:
     - name: blah
       run: ls -lah
 
-    - name: Check for Java script with npm files
-      id: check_npm_files
-      uses: andstor/file-existence-action@v3
-      with:
-        files: "package.json, package-lock.json, node_modules, npm-shrinkwrap.json"
-          
-          
 
-    - name: Running npm
-      if: steps.check_npm_files.outputs.files_exists == 'true'
-      run: |
-        echo "npm Files Found"
-        echo "Building NPM"
-        npm install
-
-    - name: Check for Go Modules files
-      id: check_go_modules_files
+    - name: Check for Go Modules files - go.mod
+      id: go_mod
       uses: andstor/file-existence-action@v3
       with:
         files: "go.mod"
 
     - name: Running Go Modules
-      if: steps.check_go_modules_files.outputs.files_exists == 'true'
+      if: steps.go_mod.outputs.files_exists == 'true'
       run: |
         echo "Go Modules Files Found"
         echo "Building Go Modules"
         go build
 
-    - name: Check for Gradle files
-      id: check_gradle_files
+    - name: Check for Gradle files - build.gradle
+      id: build_gradle
       uses: andstor/file-existence-action@v3
       with:
         files: "build.gradle"
 
     - name: Running Gradle
-      if: steps.check_gradle_files.outputs.files_exists == 'true'
+      if: steps.build_gradle.outputs.files_exists == 'true'
       run: |
         echo "Gradle Files Found"
         echo "Building Gradle"
         gradle build
 
-    - name: Check for Maven files
-      id: check_maven_files
+    - name: Check for Maven files - pom.xml
+      id: pom_xml
       uses: andstor/file-existence-action@v3
       with:
         files: "pom.xml"
 
     - name: Running Maven
-      if: steps.check_maven_files.outputs.files_exists == 'true'
+      if: steps.pom_xml.outputs.files_exists == 'true'
       run: |
         echo "Maven Files Found"
         echo "Building Maven"
         mvn clean install
 
-    - name: Check for Yarn files
-      id: check_yarn_files
+    - name: Check for JavaScript with npm files - package.json
+      id: package_json
       uses: andstor/file-existence-action@v3
       with:
-        files: "package.json, yarn.lock"
+        files: "package.json"
 
-    - name: Running Yarn
-      if: steps.check_yarn_files.outputs.files_exists == 'true'
+    - name: Check for JavaScript with npm files - package-lock.json
+      id: package_lock_json
+      uses: andstor/file-existence-action@v3
+      with:
+        files: "package-lock.json"
+
+    - name: Check for JavaScript with npm files - node_modules
+      id: node_modules
+      uses: andstor/file-existence-action@v3
+      with:
+        files: "node_modules"
+
+    - name: Check for JavaScript with npm files - npm-shrinkwrap.json
+      id: npm_shrinkwrap_json
+      uses: andstor/file-existence-action@v3
+      with:
+        files: "npm-shrinkwrap.json"
+
+    - name: Running npm
+      if: steps.package_json.outputs.files_exists == 'true' OR steps.package_lock_json.outputs.files_exists == 'true' OR steps.node_modules.outputs.files_exists == 'true' OR steps.npm_shrinkwrap_json.outputs.files_exists == 'true'
       run: |
-        echo "Yarn Files Found"
-        echo "Building Yarn"
-        yarn install
+        echo "NPM Files Found"
+        echo "Building NPM"
+        npm install
 
-    - name: Check for Composer files
-      id: check_composer_files
+    - name: Check for Composer files - composer.json
+      id: composer_json
       uses: andstor/file-existence-action@v3
       with:
-        files: "composer.json, composer.lock"
+        files: "composer.json"
+
+    - name: Check for Composer files - composer.lock
+      id: composer_lock
+      uses: andstor/file-existence-action@v3
+      with:
+        files: "composer.lock"
 
     - name: Running Composer
-      if: steps.check_composer_files.outputs.files_exists == 'true'
+      if: steps.composer_json.outputs.files_exists == 'true' OR steps.composer_lock.outputs.files_exists == 'true'
       run: |
         echo "Composer Files Found"
         echo "Building Composer"
         composer install
 
-    - name: Check for pip files
-      id: check_pip_files
+    - name: Check for pip files - requirements.txt
+      id: requirements_txt
       uses: andstor/file-existence-action@v3
       with:
         files: "requirements.txt"
 
     - name: Running pip
-      if: steps.check_pip_files.outputs.files_exists == 'true'
+      if: steps.requirements_txt.outputs.files_exists == 'true'
       run: |
         echo "pip Files Found"
         echo "Building pip"
         pip install -r requirements.txt
 
-    - name: Check for Bundler files
-      id: check_bundler_files
+    - name: Check for Bundler files - Gemfile
+      id: gemfile
       uses: andstor/file-existence-action@v3
       with:
-        files: "Gemfile, Gemfile.lock"
+        files: "Gemfile"
+
+    - name: Check for Bundler files - Gemfile.lock
+      id: gemfile_lock
+      uses: andstor/file-existence-action@v3
+      with:
+        files: "Gemfile.lock"
 
     - name: Running Bundler
-      if: steps.check_bundler_files.outputs.files_exists == 'true'
+      if: steps.gemfile.outputs.files_exists == 'true' OR steps.gemfile_lock.outputs.files_exists == 'true'
       run: |
         echo "Bundler Files Found"
         echo "Building Bundler"
         bundle install
 
-    - name: Check for SBT files
-      id: check_sbt_files
+    - name: Check for SBT files - sbt files
+      id: sbt_files
       uses: andstor/file-existence-action@v3
       with:
         files: "sbt files"
 
     - name: Running SBT
-      if: steps.check_sbt_files.outputs.files_exists == 'true'
+      if: steps.sbt_files.outputs.files_exists == 'true'
       run: |
         echo "SBT Files Found"
         echo "Building SBT"
         sbt compile
+
