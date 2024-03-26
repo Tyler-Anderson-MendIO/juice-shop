@@ -24,7 +24,7 @@ jobs:
       uses: docker/login-action@v3.1.0
       with:
         # Server address of Docker registry. If not set then will default to Docker Hub
-        registry: ${{ secrets.DOCKER_URL
+        registry: ${{ secrets.DOCKER_URL }}
         # Username used to log against the Docker registry
         username: ${{ secrets.MEND_EMAIL }}
         # Password or personal access token used to log against the Docker registry
