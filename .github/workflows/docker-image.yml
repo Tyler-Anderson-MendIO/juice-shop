@@ -86,7 +86,7 @@ jobs:
         files: "npm-shrinkwrap.json"
 
     - name: Running npm
-      if: steps.package_json.outputs.files_exists == 'true' or steps.package_lock_json.outputs.files_exists == 'true' or steps.node_modules.outputs.files_exists == 'true' or steps.npm_shrinkwrap_json.outputs.files_exists == 'true'
+      if: steps.package_json.outputs.files_exists == 'true' || steps.package_lock_json.outputs.files_exists == 'true' || steps.node_modules.outputs.files_exists == 'true' || steps.npm_shrinkwrap_json.outputs.files_exists == 'true'
       run: |
         echo "NPM Files Found"
         echo "Building NPM"
@@ -105,7 +105,7 @@ jobs:
         files: "composer.lock"
 
     - name: Running Composer
-      if: steps.composer_json.outputs.files_exists == 'true' or steps.composer_lock.outputs.files_exists == 'true'
+      if: steps.composer_json.outputs.files_exists == 'true' || steps.composer_lock.outputs.files_exists == 'true'
       run: |
         echo "Composer Files Found"
         echo "Building Composer"
@@ -137,7 +137,7 @@ jobs:
         files: "Gemfile.lock"
 
     - name: Running Bundler
-      if: steps.gemfile.outputs.files_exists == 'true' or steps.gemfile_lock.outputs.files_exists == 'true'
+      if: steps.gemfile.outputs.files_exists == 'true' || steps.gemfile_lock.outputs.files_exists == 'true'
       run: |
         echo "Bundler Files Found"
         echo "Building Bundler"
