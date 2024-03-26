@@ -15,8 +15,15 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag scan-me:$(date +%s)
+    # - name: Build the Docker image
+    #   run: docker build . --file Dockerfile --tag ${{ github.repository }}/
 
-    - name: Kill the Docker Image
-      run: docker kill scan-me
+    - name: Check file existence
+      id: check_files
+      uses: andstor/file-existence-action@v1
+      with:
+        files: "CODE_OF_CONDUCT.md"
+    
+    - name: File exists
+      if: steps.check_files.outputs.files_exists == 'true'
+      run: echo "It exists !"
