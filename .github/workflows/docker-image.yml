@@ -41,7 +41,7 @@ jobs:
             docker push tylerandersonmendio/${{ github.event.repository.name }}:${{ github.run_id }}
 
     - name: Deleting Local Docker Image
-      run: docker image remove ${{ github.event.repository.name }}:${{ github.run_id }}
+      run: docker image remove tylerandersonmendio/${{ github.event.repository.name }}:${{ github.run_id }}
       
 
     - name: Downloading the Scanners
