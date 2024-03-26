@@ -18,12 +18,127 @@ jobs:
     # - name: Build the Docker image
     #   run: docker build . --file Dockerfile --tag ${{ github.repository }}/
 
-    - name: Check file existence
-      id: check_files
+
+    - name: Check for Java script with npm files
+      id: check_npm_files
       uses: andstor/file-existence-action@v3
       with:
-        files: "CODE_OF_CONDUCT.md"
-    
-    - name: File exists
-      if: steps.check_files.outputs.files_exists == 'true'
-      run: echo "It exists !"
+        files: |
+          package.json
+          package-lock.json
+          package.json
+          node_modules
+          package.json
+          npm-shrinkwrap.json
+
+    - name: Running npm
+      if: steps.check_npm_files.outputs.files_exists == 'true'
+      run: |
+        echo "npm Files Found"
+        echo "Building NPM"
+        npm install
+
+
+    - name: Check for Go Modules files
+      id: check_go_modules_files
+      uses: andstor/file-existence-action@v3
+      with:
+        files: go.mod
+
+    - name: Running go build
+      if: steps.check_go_modules_files.outputs.files_exists == 'true'
+      run: |
+        echo "Go Modules Files Found"
+        echo "Building Go Modules"
+        go build
+
+    - name: Check for Gradle files
+      id: check_gradle_files
+      uses: andstor/file-existence-action@v3
+      with:
+        files: build.gradle
+
+    - name: Running gradle
+      if: steps.check_gradle_files.outputs.files_exists == 'true'
+      run: |
+        echo "Gradle Files Found"
+        echo "Building Gradle"
+        gradle build
+
+    - name: Check for Maven files
+      id: check_maven_files
+      uses: andstor/file-existence-action@v3
+      with:
+        files: pom.xml
+
+    - name: Running maven
+      if: steps.check_maven_files.outputs.files_exists == 'true'
+      run: |
+        echo "Maven Files Found"
+        echo "Building Maven"
+        mvn clean install
+
+    - name: Check for Yarn files
+      id: check_yarn_files
+      uses: andstor/file-existence-action@v3
+      with:
+        files: package.json yarn.lock
+
+    - name: Running yarn
+      if: steps.check_yarn_files.outputs.files_exists == 'true'
+      run: |
+        echo "Yarn Files Found"
+        echo "Building Yarn"
+        yarn install
+
+    - name: Check for Composer files
+      id: check_composer_files
+      uses: andstor/file-existence-action@v3
+      with:
+        files: composer.json composer.lock
+
+    - name: Running composer
+      if: steps.check_composer_files.outputs.files_exists == 'true'
+      run: |
+        echo "Composer Files Found"
+        echo "Building Composer"
+        composer install
+
+    - name: Check for pip files
+      id: check_pip_files
+      uses: andstor/file-existence-action@v3
+      with:
+        files: requirements.txt
+
+    - name: Running pip
+      if: steps.check_pip_files.outputs.files_exists == 'true'
+      run: |
+        echo "pip Files Found"
+        echo "Building pip"
+        pip install -r requirements.txt
+
+    - name: Check for Bundler files
+      id: check_bundler_files
+      uses: andstor/file-existence-action@v3
+      with:
+        files: Gemfile Gemfile.lock
+
+    - name: Running bundle
+      if: steps.check_bundler_files.outputs.files_exists == 'true'
+      run: |
+        echo "Bundler Files Found"
+        echo "Building Bundler"
+        bundle install
+
+    - name: Check for SBT files
+      id: check_sbt_files
+      uses: andstor/file-existence-action@v3
+      with:
+        files: sbt files
+
+    - name: Running sbt
+      if: steps.check_sbt_files.outputs.files_exists == 'true'
+      run: |
+        echo "SBT Files Found"
+        echo "Building SBT"
+        sbt compile
