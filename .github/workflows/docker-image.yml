@@ -29,5 +29,12 @@ jobs:
         echo "Verifying the CLI"
         mend version
 
-
+    - name: "Running the CLI"
+      run: |
+            mend image ${{ github.event.repository.name }}:${{ github.run_id }}> --non-interactive --local_pull --scope "Tyler_Github_Scans//${{ github.event.repository.name }}//FromDocker"
+      env:
+        MEND_USER_KEY: ${{ secrets.WS_USERKEY }}
+        MEND_EMAIL: ${{ secrets.MEND_EMAIL }}
+        MEND_URL: ${{ secrets.MEND_URL }}
+        MEND_LOG_LEVEL: "DEBUG"
     
