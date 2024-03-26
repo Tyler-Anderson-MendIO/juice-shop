@@ -15,9 +15,20 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ${{ github.event.repository.name }}:${{ github.run_id }}
+      run: docker build . --file Dockerfile --tag tylerandersonmendio/juice-box:${{ github.event.repository.name }}:${{ github.run_id }}
+
+    - name: Authenticating and Pushing Docker Image
+      run: |
+            echo "Authentication..."
+            docker login --username ${{ secrets.MEND_EMAIL }} --password ${{ secrets.DOCKER_PW }}
+
+            echo "Pushing Docker"
+            docker push tylerandersonmendio/juice-box:${{ github.event.repository.name }}:${{ github.run_id }}
+
+    - name: Deleting Local Docker Image
+      run: docker image remove tylerandersonmendio/juice-box:${{ github.event.repository.name }}:${{ github.run_id }}
+      
 
     - name: Downloading the Scanners
       run: |
@@ -31,7 +42,7 @@ jobs:
 
     - name: "Running the CLI"
       run: |
-            mend image ${{ github.event.repository.name }}:${{ github.run_id }} --non-interactive --local-pull --scope "Tyler-Sandbox//${{ github.event.repository.name }}//FromDocker"
+            mend image tylerandersonmendio/juice-box:${{ github.event.repository.name }}:${{ github.run_id }} --non-interactive --local-pull --scope "Tyler-Sandbox//${{ github.event.repository.name }}//NonLocalDocker"
       env:
         MEND_USER_KEY: ${{ secrets.WS_USERKEY }}
         MEND_EMAIL: ${{ secrets.MEND_EMAIL }}
