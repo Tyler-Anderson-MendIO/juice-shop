@@ -23,13 +23,9 @@ jobs:
       id: check_npm_files
       uses: andstor/file-existence-action@v3
       with:
-        files: |
-          package.json
-          package-lock.json
-          package.json
-          node_modules
-          package.json
-          npm-shrinkwrap.json
+        files: "package.json, package-lock.json, node_modules, npm-shrinkwrap.json"
+          
+          
 
     - name: Running npm
       if: steps.check_npm_files.outputs.files_exists == 'true'
@@ -38,14 +34,13 @@ jobs:
         echo "Building NPM"
         npm install
 
-
     - name: Check for Go Modules files
       id: check_go_modules_files
       uses: andstor/file-existence-action@v3
       with:
-        files: go.mod
+        files: "go.mod"
 
-    - name: Running go build
+    - name: Running Go Modules
       if: steps.check_go_modules_files.outputs.files_exists == 'true'
       run: |
         echo "Go Modules Files Found"
@@ -56,9 +51,9 @@ jobs:
       id: check_gradle_files
       uses: andstor/file-existence-action@v3
       with:
-        files: build.gradle
+        files: "build.gradle"
 
-    - name: Running gradle
+    - name: Running Gradle
       if: steps.check_gradle_files.outputs.files_exists == 'true'
       run: |
         echo "Gradle Files Found"
@@ -69,9 +64,9 @@ jobs:
       id: check_maven_files
       uses: andstor/file-existence-action@v3
       with:
-        files: pom.xml
+        files: "pom.xml"
 
-    - name: Running maven
+    - name: Running Maven
       if: steps.check_maven_files.outputs.files_exists == 'true'
       run: |
         echo "Maven Files Found"
@@ -82,9 +77,9 @@ jobs:
       id: check_yarn_files
       uses: andstor/file-existence-action@v3
       with:
-        files: package.json yarn.lock
+        files: "package.json, yarn.lock"
 
-    - name: Running yarn
+    - name: Running Yarn
       if: steps.check_yarn_files.outputs.files_exists == 'true'
       run: |
         echo "Yarn Files Found"
@@ -95,9 +90,9 @@ jobs:
       id: check_composer_files
       uses: andstor/file-existence-action@v3
       with:
-        files: composer.json composer.lock
+        files: "composer.json, composer.lock"
 
-    - name: Running composer
+    - name: Running Composer
       if: steps.check_composer_files.outputs.files_exists == 'true'
       run: |
         echo "Composer Files Found"
@@ -108,7 +103,7 @@ jobs:
       id: check_pip_files
       uses: andstor/file-existence-action@v3
       with:
-        files: requirements.txt
+        files: "requirements.txt"
 
     - name: Running pip
       if: steps.check_pip_files.outputs.files_exists == 'true'
@@ -121,9 +116,9 @@ jobs:
       id: check_bundler_files
       uses: andstor/file-existence-action@v3
       with:
-        files: Gemfile Gemfile.lock
+        files: "Gemfile, Gemfile.lock"
 
-    - name: Running bundle
+    - name: Running Bundler
       if: steps.check_bundler_files.outputs.files_exists == 'true'
       run: |
         echo "Bundler Files Found"
@@ -134,9 +129,9 @@ jobs:
       id: check_sbt_files
       uses: andstor/file-existence-action@v3
       with:
-        files: sbt files
+        files: "sbt files"
 
-    - name: Running sbt
+    - name: Running SBT
       if: steps.check_sbt_files.outputs.files_exists == 'true'
       run: |
         echo "SBT Files Found"
