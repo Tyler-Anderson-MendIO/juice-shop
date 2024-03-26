@@ -19,6 +19,9 @@ jobs:
     #   run: docker build . --file Dockerfile --tag ${{ github.repository }}/
 
 
+    - name: blah
+      run: ls -lah
+
     - name: Check for Java script with npm files
       id: check_npm_files
       uses: andstor/file-existence-action@v3
