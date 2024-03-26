@@ -5,7 +5,8 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-
+  workflow_dispatch:
+  
 jobs:
 
   build:
@@ -15,13 +16,20 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    # - name: Build the Docker image
-    #   run: docker build . --file Dockerfile --tag ${{ github.repository }}/
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag ${{ github.repository }}/${{ github.run_id }}
 
+    - name: Downloading the Scanners
+      run: |
+        echo "Downloading the CLI"
+        curl https://downloads.mend.io/cli/linux_amd64/mend -o /usr/local/bin/mend && chmod +x /usr/local/bin/mend
 
-    - name: blah
-      run: ls -lah
+    - name: Validating the CLI
+      run: |
+        echo "Verifying the CLI"
+        mend version
 
+# Checking all Package Manager Dependencies
     - name: Check for Go Modules files - go.mod
       id: go_mod
       uses: andstor/file-existence-action@v3
