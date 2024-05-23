@@ -56,7 +56,7 @@ jobs:
 
     - name: "Running the CLI"
       run: |
-            mend image tylerandersonmendio/${{ github.event.repository.name }}:${{ github.run_id }} --non-interactive --local-pull --scope "Tyler-Sandbox//${{ github.event.repository.name }}//NonLocalDocker-${{ github.run_id }}"
+            mend dep tylerandersonmendio/${{ github.event.repository.name }}:${{ github.run_id }} --non-interactive --local-pull --scope "Tyler-Sandbox//${{ github.event.repository.name }}//NonLocalDocker-${{ github.run_id }}"
       env:
         MEND_USER_KEY: ${{ secrets.WS_USERKEY }}
         MEND_EMAIL: ${{ secrets.MEND_EMAIL }}
